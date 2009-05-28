@@ -1,13 +1,13 @@
-			      WISCHK 2.0
-			     John Wiseman
-			 jjwiseman@gmail.com
-			      ----------
+                              WISCHK 2.0
+                             John Wiseman
+                         jjwiseman@gmail.com
+                              ----------
 
 
-Tested with:	386SX-16  4 MB RAM
-		Unix (linux) w/ gcc 2.3.3
+Tested with:    386SX-16  4 MB RAM
+                Unix (linux) w/ gcc 2.3.3
                 MS-DOS 5.0   w/ Turbo C++ 3.0
-		SunOS 4.something and 5.5 w/ gcc 2.72
+                SunOS 4.something and 5.5 w/ gcc 2.72
 
 
 
@@ -22,20 +22,20 @@ few catches:
 
 I. Screen library.
 
-	If you have curses or are using a Borland compiler, then don't
+        If you have curses or are using a Borland compiler, then don't
 worry.  Otherwise, you will have to fiddle with dispprim.h to make use
 of your vendor supplied/homebrew screen I/O library.
 
 
 II. Stack space.
 
-	Make sure that if you're compiling under DOS, you give the
+        Make sure that if you're compiling under DOS, you give the
 program lots of stack space (if you have a Borland compiler, don't
 worry - it's taken care of).  60K or so is nice, probably 20K will do.
 
 III. Heap.
 
-	When compiling under DOS, make sure to use a memory model that
+        When compiling under DOS, make sure to use a memory model that
 will give access to the full 640K.  Compact, large and huge should all
 work.  Flat is nice.
 
@@ -47,18 +47,18 @@ makefile.
 MANIFEST
 --------
 
-	README		This file
-	Makefile	Makefile for unix
-	wischk.man	Manual page
-	wischk.6	Source for manual page
-	run1		Shell script to automate game between two
-			 generic checkers programs
-	run2		shell script to automate game between two
-			 versions of wischk		
-	run.bat		DOS batch file to automate game between two
-			 programs
-	checkers.cfg	Board configuration file
-	master.cfg	Board configuration file (initial board)
-	default.prm     Defaults for parameters affecting static
-			 evaluation
-	*.cc *.h	Source files
+        README          This file
+        Makefile        Makefile for unix
+        wischk.man      Manual page
+        wischk.6        Source for manual page
+        run1            Shell script to automate game between two
+                         generic checkers programs
+        run2            shell script to automate game between two
+                         versions of wischk             
+        run.bat         DOS batch file to automate game between two
+                         programs
+        checkers.cfg    Board configuration file
+        master.cfg      Board configuration file (initial board)
+        default.prm     Defaults for parameters affecting static
+                         evaluation
+        *.cc *.h        Source files
