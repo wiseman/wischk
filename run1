@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# usage: run <time1> <time2>
+#
+# Administers a checkers game between two programs using the CSCI 490B
+# protocol.
+#
+# time1 is the number of seconds that wischk should spend looking for a move,
+# and time2 is the number of seconds that dumchk should spend.
+#
+# The way I usually do it is 'run 30 30 | tee run.out'
+
+if [ $# -eq 0 ]; then
+	echo "Usage: $0 [prog1] [arg1] [prog2] [arg2]"
+	echo "where [prog1] and [prog2] are the programs to run"
+	echo "and [arg1] and [arg2] are the command-line arguments"
+	echo "to pass to each."
+	exit
+fi
+
+
+cp master.cfg checkers.cfg
+moveno=1
+
+while [ -f checkers.cfg ]
+do
+	echo "move number $moveno"
+
+	echo "WISCHK1:"
+	echo "TIME wischk1 started\: " `date`
+	wischk1 $1
+	echo "TIME wischk1 ended\: " `date`
+	cat checkers.cfg
+	echo
+
+	echo "WISCHK2:"
+	echo "TIME wischk2 started\: " `date`
+	wischk2 $2
+	echo "TIME wischk2 ended\: " `date`
+	cat checkers.cfg
+	echo
+
+	moveno=$[$moveno + 1]	
+done

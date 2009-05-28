@@ -1,0 +1,13 @@
+piece_val			30
+king_val			80
+move				 2
+jumps				 6
+piece_row_advance		 1
+piece_middle_center_squares	 4
+piece_middle_side_squares	-2
+piece_center_goalies		10
+piece_side_goalies		 8
+piece_double_corner		 4
+is_home_free			15
+dist_factor			 5
+

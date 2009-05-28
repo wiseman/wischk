@@ -1,0 +1,314 @@
+.Id $Id: wischk.6,v 2.0 1993/11/14 17:52:11 jjw Rel $
+.\"
+.\" wischk: the "wise" checkers playing program
+.\" Copyright (C) 1993  John J. Wiseman
+.\" See file COPYING for license and (lack of) warranty
+.\"
+.TH WISCHK 6 "Oct 2 1993"
+.SH NAME
+wischk \- plays the game of checkers (draughts)
+.SH SYNOPSIS
+.B wischk
+.RB [ \-i ]
+.RB [ \-l ]
+.RB [ \-nohc ]
+.RB [ \-noj ]
+.RB [ \-f CONFIG ]
+.RB [ \-c PARMS ]
+think
+.br
+.B wischk
+.RB [ \-noj ]
+.RB [ \-f CONFIG ]
+\-show
+.SH DESCRIPTION
+.I wischk
+plays checkers, either against a human or against another program.  By
+default, when
+.I wischk
+is run it will attempt to play against another
+program, and will take no longer than
+.I think
+seconds to make its move.
+
+.SH OPTIONS
+.TP 12
+.B \-i
+Play against a human interactively.
+.TP
+.B \-l
+Instead of thinking for
+.I think
+seconds before making a move, search the game tree exhaustively
+.I think
+moves ahead.
+.TP
+.B \-nohc
+By default,
+.I wischk
+uses a simple heuristic continuation enhancement.  A position will not
+be statically evaluated until neither player can jump (if the
+.B \-l
+option is used, then wischk will search
+.I think
+moves ahead exhaustively, and search deeper on selected branches
+according to the heuristic).  This option turns off heuristic
+continuation.
+.TP
+.B \-noj
+In the most common rules of checkers, players must jump when they have
+the opportunity.  This option turns off that rule, and makes jumps
+optional.
+.TP
+.BR \-f CONFIG
+When
+.B wischk
+is playing against another program, the two programs take turns making
+moves, passing the resulting board configurations in a file named by
+default
+.BR checkers.cfg .
+Using this option,
+.I wischk
+will use the file named
+.I CONFIG
+instead.  If the
+.B \-i
+option is also used, then
+.I CONFIG
+will contain the board configuration of the initial board to use.
+.TP
+.BR \-c PARMS
+.I wischk
+uses 12 different numeric parameters in evaluating a board position.
+Each value gives either a bonus or penalty of some magnitude to
+different situations in a position.  If this option is used,
+.I wischk
+will use the parameters in the file
+.I PARMS
+instead of the default static evaluation parameters.  See the file
+defaults.prm for an example of the format of a parameter file.
+.TP
+.B \-show
+Ignore options other than
+.B \-f
+and
+.BR \-noj ;
+display a list of possible moves for each
+player for the given board position, then quit.
+
+.SH INTERACTIVE PLAY
+When playing against a human,
+.I wischk
+uses a simple alpha-numeric board display.  The user will be prompted
+for the color she wishes to play, and the user will always move first.
+Moves are entered in the notation "c3d4", where the first
+letter-number pair indicates the origin square and the second
+letter-number pair indicates the destination square.  If the move is a
+jump, the opponent's piece(s) will be removed.  Multiple jumps are
+indicated using the same notation, e.g. "c3e5g7h5".
+.PP
+Other commands that can be entered at the prompt are
+.TP 12
+.B help
+Display a list of commands and a short description of each.
+.TP
+.B quit
+Quit the program.
+.TP
+.B redraw
+Redraw the screen
+.TP
+.BR time " arg"
+Change the maximum amount of time
+.I wischk
+will spend thinking about a move to
+.I arg
+seconds.
+.TP
+.BR level " arg"
+Change
+.BR wischk 's
+maximum look-ahead to
+.I arg
+moves.
+
+.PP
+.I wischk
+will display various statistics about the game.
+.PP
+The "maximum depth fully searched" is the number of moves ahead that
+.I wischk
+searched exhaustively, while the "maximum depth searched" is the maximum
+look-ahead attained on any branch of the game tree (usually larger due
+to heuristic continuation).
+.PP
+The "static value" of a board is the value given to the current
+position by
+.IR wischk "'s"
+evaluation function.  The "dynamic value" of a board is the value of
+the board according to the alpha-beta search algorithm with heuristic
+continuation ("(win)" will be displayed if
+.I wischk
+sees an imminent victory, "(loss)" if
+.I wischk
+sees an imminent defeat, and "(unknown)" if only one move was possible).
+
+.SH PLAYING AGAINST ANOTHER PROGRAM
+
+.I wischk
+can play against another checkers program using the "CSCI 490B
+protocol".  Following this protocol, two programs take turns being
+run, each time reading the file
+.BR checkers.cfg ,
+then writing out a new checkers.cfg showing the result of its move.
+If either program ever finds that it has won as a result of its move,
+it deletes
+.BR checkers.cfg ,
+and exits without writing a new one.
+.PP
+To fully automate a game, the following logic can be used in a script
+or batch file:
+.PP
+	Initialize
+.B checkers.cfg
+.br
+	while (
+.B checkers.cfg
+exists )
+.br
+	do
+.br
+		Run program #1
+.br
+		if (
+.B checkers.cfg
+exists ) then
+.br
+			Run program #2
+.br
+		endif
+.br
+	end while
+
+.PP
+The 
+.B checkers.cfg
+file has the following format:
+.PP
+	wischk=red dumchk=black
+.br
+	e b e b e b e b
+.br
+	b e b e b e b e
+.br
+	e b e b e b e b
+.br
+	e e e e e e e e
+.br
+	e e e e e e e e
+.br
+	r e r e r e r e
+.br
+	e r e r e r e r
+.br
+	r e r e r e r e
+.PP
+Where the first line gives the names and colors of the two programs
+playing, and the next eight lines indicate the board configuration
+using the following symbols:
+.br
+.TP 4
+.B e
+Empty square
+.TP
+.B r
+Red piece
+.TP
+.B R
+Red king
+.TP
+.B b
+Black piece
+.TP
+.B B
+Black king
+
+.SH EXIT STATUS
+.I wischk
+may terminate with the following exit values:
+.TP 8
+.B 0
+No errors occurred during execution and no winning/losing move was
+made.
+.TP
+.B 1
+.I wischk
+has lost the game.
+.TP
+.B 2
+.I wischk
+has won the game.
+.TP
+.B 3
+There was a syntax error on the command line; correct usage was
+displayed.
+.TP
+.B 4
+A static value parameter file was specified with the
+.B \-c
+option but an error occurred while attempting to read from it.
+.TP
+.B 5
+The
+.B checkers.cfg
+file (or other file specified with the
+.B \-f
+option) could not be opened.
+.TP
+.B 6
+The
+.B checkers.cfg
+file (or other file specified with the
+.B \-f
+option) was not in the correct format.
+.TP
+.B 7
+An error occurred while trying to create a new board configuration
+file.
+
+.SH FILES
+.TP 16
+.B checkers.cfg
+Used to pass board position between two programs playing against each
+other.
+.TP 16
+.B defaults.prm
+Sample file containing static evaluation parameters.
+
+.SH BUGS
+Although it uses a rather conservative algorithm,
+.I wischk
+will occasionally spend more time thinking about a move than it
+should.
+.PP
+.I wischk
+seems strangely weak during the endgame (especially when played
+against itself); usually it plays well enough until then to do
+alright.
+.PP
+No check is made for draws due to repeated moves.
+.PP
+Heuristic continuation doesn't quite work as advertised: continuation
+of search occurs only about half as often as it's supposed to.  The
+problem is that fixing this would cause
+.I wischk
+to go over the time limit more often.
+
+.SH AUTHOR
+
+John Wiseman
+
+.br
+jjwiseman@yahoo.com
+
+

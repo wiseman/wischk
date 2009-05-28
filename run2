@@ -1,0 +1,36 @@
+#!/bin/sh
+#
+# usage: run <time1> <time2>
+#
+# Administers a checkers game between wischk and dumchk.
+#
+# time1 is the number of seconds that wischk should spend looking for a move,
+# and time2 is the number of seconds that dumchk should spend.
+#
+# The way I usually do it is 'run 30 30 | tee run.out'
+
+tmpfile=CCONFIG.$$
+cp master.cfg $tmpfile
+moveno=1
+
+while [ -f $tmpfile ]
+do
+	echo "move number $moveno"
+
+	echo "WISCHK1:"
+	echo "TIME wischk1 started\: " `date`
+	wischk1 -f${tmpfile} $1
+	echo "TIME wischk1 ended\: " `date`
+	cat $tmpfile
+	echo
+
+	echo "WISCHK2:"
+	echo "TIME wischk2 started\: " `date`
+	wischk2 -f${tmpfile} $2
+	echo "TIME wischk2 ended\: " `date`
+	cat $tmpfile
+	echo
+
+	moveno=$[$moveno + 1]	
+done
+rm $tmpfile

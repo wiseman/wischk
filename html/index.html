@@ -1,0 +1,71 @@
+<HTML>
+<HEAD>
+<title>Wischk: A Simple Checkers Program</title>
+<link rev=made href="mailto:wiseman@inetmi.com">
+</HEAD>
+<body bgcolor="#FFFFFF" text="#000000">
+
+<h2>wischk</h2>
+
+<table>
+<tr>
+<td>
+<img src="checkers.gif" alt="[Gratuitous animation]" width=188 height=165>
+
+<td>
+
+Wischk is a checkers playing program I wrote several years ago.  It
+should compile (with some mostly harmless warnings) and run under
+unixes with a curses interface or under DOS using Turbo C++ 3.0,
+although it should be easy to port to other environments.  You can
+play against it interactively and it knows a simple protocol for
+playing against other checkers-playing programs (even different
+versions of itself).
+
+<p> Wischk uses a progressive deepening alpha-beta search enhanced
+with simple heuristic continuation.  Its static evaluator uses some
+twelve heuristics and can be tuned a little by changing the weights
+that are applied to each heuristic (some students at Georgia Tech
+worked on a <a href="http://www.prism.gatech.edu/~sf64/project.html">project</a>
+to improve the default weights using a genetic method).
+
+<p>
+Wischk comes with a <a href="wischk.man.html">manual page</a>.
+
+<p>
+Wischk is written in basic C++.  The source code is available, such as it is:
+
+<ul>
+<li><a href="wischk26.tar.gz">wischk26.tar.gz</a>; Tarred and gzipped (35 K)
+<li><a href="wischk26.zip">wischk26.zip</a>; Zipped (45 K)
+</ul>
+
+<p>
+Or you could just get the <a href="wischk.exe">DOS executable</a>
+(94K).
+
+</table>
+<p>
+
+<hr>
+
+<table width="100%">
+<tr>
+<td align=left valign=top width="33%">
+
+</td>
+
+<td align=right valign=top width="*">
+
+<font size=-1>
+<a href="../">John Wiseman</a> / <A HREF="mailto:wiseman@inetmi.com">wiseman@inetmi.com</A>
+<br>
+Jun. 7, 1998
+<p>
+</font>
+</td>
+</tr>
+</table>
+
+</BODY>
+</HTML>

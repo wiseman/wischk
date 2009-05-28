@@ -1,0 +1,330 @@
+
+
+
+WISCHK(6)                Games and Demos                WISCHK(6)
+
+
+
+NNNNAAAAMMMMEEEE
+     wischk - plays the game of checkers (draughts)
+
+SSSSYYYYNNNNOOOOPPPPSSSSIIIISSSS
+     wwwwiiiisssscccchhhhkkkk [----iiii] [----llll] [----nnnnoooohhhhcccc] [----nnnnoooojjjj] [----ffffCONFIG]]]] [----ccccPARMS]]]] think
+     wwwwiiiisssscccchhhhkkkk [----nnnnoooojjjj] [----ffffCONFIG]]]] -show
+
+DDDDEEEESSSSCCCCRRRRIIIIPPPPTTTTIIIIOOOONNNN
+     _w_i_s_c_h_k plays checkers, either against  a  human  or  against
+     another  program.   By  default,  when _w_i_s_c_h_k is run it will
+     attempt to play against another program, and  will  take  no
+     longer than _t_h_i_n_k seconds to make its move.
+
+
+OOOOPPPPTTTTIIIIOOOONNNNSSSS
+     ----iiii           Play against a human interactively.
+
+     ----llll           Instead of thinking for  _t_h_i_n_k  seconds  before
+                 making a move, search the game tree exhaustively
+                 _t_h_i_n_k moves ahead.
+
+     ----nnnnoooohhhhcccc        By default, _w_i_s_c_h_k uses a simple heuristic con-
+                 tinuation  enhancement.   A position will not be
+                 statically evaluated until  neither  player  can
+                 jump (if the ----llll option is used, then wischk will
+                 search  _t_h_i_n_k  moves  ahead  exhaustively,   and
+                 search  deeper on selected branches according to
+                 the heuristic).  This option turns off heuristic
+                 continuation.
+
+     ----nnnnoooojjjj         In the most common rules of  checkers,  players
+                 must  jump when they have the opportunity.  This
+                 option turns off  that  rule,  and  makes  jumps
+                 optional.
+
+     ----ffffCONFIG     When wwwwiiiisssscccchhhhkkkk is playing against another program,
+                 the  two programs take turns making moves, pass-
+                 ing the resulting board configurations in a file
+                 named   by  default  cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg.   Using  this
+                 option, _w_i_s_c_h_k will use the  file  named  _C_O_N_F_I_G
+                 instead.   If  the  ----iiii option is also used, then
+                 _C_O_N_F_I_G will contain the board  configuration  of
+                 the initial board to use.
+
+     ----ccccPARMS      _w_i_s_c_h_k uses 12 different numeric parameters  in
+                 evaluating  a  board position.  Each value gives
+                 either a bonus or penalty of some  magnitude  to
+                 different  situations  in  a  position.  If this
+                 option is used, _w_i_s_c_h_k will use  the  parameters
+                 in  the file _P_A_R_M_S instead of the default static
+                 evaluation    parameters.     See    the    file
+                 defaults.prm  for  an example of the format of a
+
+
+
+SunOS 5.5            Last change: Oct 2 1993                    1
+
+
+
+
+
+
+WISCHK(6)                Games and Demos                WISCHK(6)
+
+
+
+                 parameter file.
+
+     ----sssshhhhoooowwww        Ignore options other than ----ffff and ----nnnnoooojjjj;  display
+                 a list of possible moves for each player for the
+                 given board position, then quit.
+
+
+IIIINNNNTTTTEEEERRRRAAAACCCCTTTTIIIIVVVVEEEE PPPPLLLLAAAAYYYY
+     When playing against a human, _w_i_s_c_h_k uses  a  simple  alpha-
+     numeric  board  display.   The user will be prompted for the
+     color she wishes to play, and  the  user  will  always  move
+     first.   Moves are entered in the notation "c3d4", where the
+     first letter-number pair indicates the origin square and the
+     second  letter-number pair indicates the destination square.
+     If the move is a  jump,  the  opponent's  piece(s)  will  be
+     removed.   Multiple jumps are indicated using the same nota-
+     tion, e.g. "c3e5g7h5".
+
+     Other commands that can be entered at the prompt are
+
+     hhhheeeellllpppp        Display a list of commands and a short  descrip-
+                 tion of each.
+
+     qqqquuuuiiiitttt        Quit the program.
+
+     rrrreeeeddddrrrraaaawwww      Redraw the screen
+
+     ttttiiiimmmmeeee arg    Change the maximum amount of  time  _w_i_s_c_h_k  will
+                 spend thinking about a move to _a_r_g seconds.
+
+     lllleeeevvvveeeellll arg   Change wwwwiiiisssscccchhhhkkkk's maximum look-ahead to _a_r_g moves.
+
+
+     _w_i_s_c_h_k will display various statistics about the game.
+
+     The "maximum depth fully searched" is the  number  of  moves
+     ahead  that _w_i_s_c_h_k searched exhaustively, while the "maximum
+     depth searched" is the maximum look-ahead  attained  on  any
+     branch  of  the  game  tree (usually larger due to heuristic
+     continuation).
+
+     The "static value" of a board is  the  value  given  to  the
+     current  position  by  _w_i_s_c_h_k's  evaluation  function.   The
+     "dynamic value" of a board is the value of the board accord-
+     ing  to  the alpha-beta search algorithm with heuristic con-
+     tinuation ("(win)" will  be  displayed  if  _w_i_s_c_h_k  sees  an
+     imminent  victory,  "(loss)"  if  _w_i_s_c_h_k  sees  an  imminent
+     defeat, and "(unknown)" if only one move was possible).
+
+
+PPPPLLLLAAAAYYYYIIIINNNNGGGG AAAAGGGGAAAAIIIINNNNSSSSTTTT AAAANNNNOOOOTTTTHHHHEEEERRRR PPPPRRRROOOOGGGGRRRRAAAAMMMM
+     _w_i_s_c_h_k can play against another checkers program  using  the
+
+
+
+SunOS 5.5            Last change: Oct 2 1993                    2
+
+
+
+
+
+
+WISCHK(6)                Games and Demos                WISCHK(6)
+
+
+
+     "CSCI 490B protocol".  Following this protocol, two programs
+     take  turns  being  run,  each   time   reading   the   file
+     cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg,  then  writing  out a new checkers.cfg showing
+     the result of its move.  If either program ever  finds  that
+     it has won as a result of its move, it deletes cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg,
+     and exits without writing a new one.
+
+     To fully automate a game, the following logic can be used in
+     a script or batch file:
+
+          Initialize cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg
+          while ( cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg exists )
+          do
+               Run program #1
+               if ( cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg exists ) then
+                    Run program #2
+               endif
+          end while
+
+
+     The cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg file has the following format:
+
+          wischk=red dumchk=black
+          e b e b e b e b
+          b e b e b e b e
+          e b e b e b e b
+          e e e e e e e e
+          e e e e e e e e
+          r e r e r e r e
+          e r e r e r e r
+          r e r e r e r e
+
+     Where the first line gives the names and colors of  the  two
+     programs  playing,  and  the  next  eight lines indicate the
+     board configuration using the following symbols:
+
+     eeee   Empty square
+
+     rrrr   Red piece
+
+     RRRR   Red king
+
+     bbbb   Black piece
+
+     BBBB   Black king
+
+
+EEEEXXXXIIIITTTT SSSSTTTTAAAATTTTUUUUSSSS
+     _w_i_s_c_h_k may terminate with the following exit values:
+
+     0000       No  errors  occurred   during   execution   and   no
+             winning/losing move was made.
+
+
+
+SunOS 5.5            Last change: Oct 2 1993                    3
+
+
+
+
+
+
+WISCHK(6)                Games and Demos                WISCHK(6)
+
+
+
+     1111       _w_i_s_c_h_k has lost the game.
+
+     2222       _w_i_s_c_h_k has won the game.
+
+     3333       There was  a  syntax  error  on  the  command  line;
+             correct usage was displayed.
+
+     4444       A static value parameter file was specified with the
+              ----cccc option but an error occurred while attempting to
+             read from it.
+
+     5555       The cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg file (or other file specified  with
+             the ----ffff option) could not be opened.
+
+     6666       The cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg file (or other file specified  with
+             the ----ffff option) was not in the correct format.
+
+     7777       An error occurred while trying to create a new board
+             configuration file.
+
+
+FFFFIIIILLLLEEEESSSS
+     cccchhhheeeecccckkkkeeeerrrrssss....ccccffffgggg    Used to pass board position between two pro-
+                     grams playing against each other.
+
+     ddddeeeeffffaaaauuuullllttttssss....pppprrrrmmmm    Sample  file  containing  static  evaluation
+                     parameters.
+
+
+BBBBUUUUGGGGSSSS
+     Although it uses a  rather  conservative  algorithm,  _w_i_s_c_h_k
+     will occasionally spend more time thinking about a move than
+     it should.
+
+     _w_i_s_c_h_k seems strangely weak during the  endgame  (especially
+     when  played  against  itself); usually it plays well enough
+     until then to do alright.
+
+     No check is made for draws due to repeated moves.
+
+     Heuristic continuation doesn't  quite  work  as  advertised:
+     continuation  of  search  occurs only about half as often as
+     it's supposed to.  The problem is  that  fixing  this  would
+     cause _w_i_s_c_h_k to go over the time limit more often.
+
+
+AAAAUUUUTTTTHHHHOOOORRRR
+     John Wiseman
+
+     wiseman@cs.uchicago.edu
+     http://www.cs.uchicago.edu/~wiseman/
+
+
+
+
+SunOS 5.5            Last change: Oct 2 1993                    4
+
+
+
+
+
+
+WISCHK(6)                Games and Demos                WISCHK(6)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SunOS 5.5            Last change: Oct 2 1993                    5
+
+
+
+
+
+
